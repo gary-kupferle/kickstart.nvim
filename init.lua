@@ -91,7 +91,14 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
+-- Config Nerd Font
+vim.cmd 'set guifont=HackerNerdFontMono-Regular:h11'
+vim.opt.guicursor = 'a:block' -- Optional: Set a block cursor for better visibility
+vim.opt.termguicolors = true -- Enable true color support if not already enabled
+vim.g.WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = ''
+vim.g.WebDevIconsUnicodeDecorateFileNodesExactSymbols = 1
+vim.g.webdevicons_enable = 1
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -105,7 +112,7 @@ vim.opt.ts = 4
 vim.opt.ai = true
 
 -- Swap
-vim.opt.directory = '~/vim/swapfiles'
+vim.opt.directory = '/Users/gary/vim/swapfiles'
 
 -- Make line numbers default
 vim.opt.number = true
@@ -565,7 +572,7 @@ require('lazy').setup({
         --powershell_es = {},
         --pyright = {},
         --ruby_ls = {},
-        rust_analyzer = {},
+        --rust_analyzer = {},
         -- scheme_langserver = {},
         tailwindcss = {},
         terraformls = {},
@@ -650,11 +657,32 @@ require('lazy').setup({
         -- is found.
         javascript = { { 'prettierd', 'prettier' } },
         typescript = { { 'prettierd', 'prettier' } },
-        rust = { 'rustfmt' },
+        --rust = { 'rustfmt' },
       },
     },
   },
-
+  { -- Neotree
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+      'MunifTanjim/nui.nvim',
+      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
+  },
+  {
+    'windwp/nvim-autopairs',
+    -- Optional dependency
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      require('nvim-autopairs').setup {}
+      -- If you want to automatically add `(` after selecting a function or method
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+      local cmp = require 'cmp'
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end,
+  },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
